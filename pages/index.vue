@@ -58,9 +58,7 @@ export default defineComponent({
     const covidStore = useCovidData()
     const coockieChecked = ref(false)
 
-      if (Cookies.get('isLoggedIn')) {
-        console.log(1111);
-        
+      if (Cookies.get('isLoggedIn')) {        
         isLoggedIn.value = true
     }
     const handleLogin = () => {
@@ -90,8 +88,7 @@ export default defineComponent({
     }
     },
     mounted () {
-              if (Cookies) {
-        console.log(!!Cookies, 22222);
+    if (Cookies) {
          this.coockieChecked = true   
     }
     },
