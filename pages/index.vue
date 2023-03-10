@@ -8,38 +8,38 @@
       </div>
     </div>
     <div v-else>
- <div class="flex justify-end w-full font-mono">
-      <button  v-if="isLoggedIn"  @click="handleLogout" type="button" class=" mr-10 mt-6 text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+      <div class="flex justify-end w-full font-mono">
+        <button  v-if="isLoggedIn"  @click="handleLogout" type="button" class=" mr-10 mt-6 text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
           Logout
-      </button>
-  </div>
-  <div class="max-w-md mx-auto mt-20 font-mono" v-if="!isLoggedIn">
-    <h1 class="text-3xl font-bold mb-6 text-center text-gray-200">Login</h1>
-    <form class="bg-slate-300 shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="handleLogin">
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="email">
-          Email
-        </label>
-        <input v-model="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="password">
-          Password
-        </label>
-        <input v-model="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password">
-      </div>
-      <div class="flex items-center justify-between">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Sign In
         </button>
       </div>
-    </form>
-    <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-      <strong class="font-bold">{{ errorMessage }}</strong>
+    <div class="max-w-md mx-auto mt-20 font-mono" v-if="!isLoggedIn">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-200">Login</h1>
+        <form class="bg-slate-300 shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="handleLogin">
+          <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2" for="email">
+              Email
+            </label>
+            <input v-model="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2" for="password">
+              Password
+            </label>
+            <input v-model="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password">
+          </div>
+          <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              Sign In
+            </button>
+          </div>
+        </form>
+      <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">{{ errorMessage }}</strong>
+      </div>
     </div>
-  </div>
-  <CovidCasesTable v-if="isLoggedIn" />
-    </div>
+    <CovidCasesTable v-if="isLoggedIn" />
+</div>
 </template>
 
 <script lang="ts">

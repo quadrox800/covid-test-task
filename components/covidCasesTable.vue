@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto mt-20 px-4 font-mono">
     <h1 class="text-3xl font-bold mb-10 text-center text-gray-200">Total COVID-19 Cases in Ukraine for the Last 5 Days</h1>
-    <div v-if="!getDailyCases.length" class="flex flex-col items-center">
+    <div v-if="!dailyCases" class="flex flex-col items-center">
       <div role="status">
           <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -15,63 +15,30 @@
         <button  @click="refreshData" type="button" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
           Refresh
         </button>
-
       </div>
-      <table class="text-center w-full bg-slate-600 shadow-md rounded-lg border-white overflow-hidden">
-        <thead class="text-slate-100 text-xl">
-          <tr>
-            <th class="py-3 px-4">Date</th>
-            <th class="py-3 px-4">Confirmed Diff</th>
-            <th class="py-3 px-4">Deaths Diff</th>
-            <th class="py-3 px-4">Active Diff</th>
-          </tr>
-        </thead>
-        <tbody class="text-slate-300">
-          <tr v-for="(dailyCase, index) in getDailyCases" :key="dailyCase.date">
-            <td class="py-3 px-4">{{ dailyCase.date }}</td>
-            <td class="py-3 px-4">{{ dailyCase.confirmedDiff }}</td>
-            <td class="py-3 px-4">{{ dailyCase.deathsDiff }}</td>
-            <td class="py-3 px-4">{{ dailyCase.activeDiff }}</td>
-            <div class="flex">
-              <button @click="deleteCase(index)" type="button" class="mt-4 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 text-center mx-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                Delete
-              </button>
-            </div>
-          </tr>
-        </tbody>
-      </table>
+
+      <tableComponent />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { mapActions, mapState  } from 'pinia'
 import { useCovidData } from '../store/covid'
 import Cookies from 'js-cookie'
-
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
     setup() {
     const covidStore = useCovidData()
+    const { dailyCases } = storeToRefs(covidStore)
 
-    return { covidStore }
-  },
-  computed: {
-    ...mapState(useCovidData, ['getDailyCases']),
-  },
-  methods: {
-    ...mapActions(useCovidData, ['fetchCovidData', 'deleteDailyCase']),
-    deleteCase(id) {
-      this.deleteDailyCase(id);
-    },
-    refreshData() {
+    function refreshData() {
       Cookies.remove('dailyCases');
-      this.fetchCovidData();
+      covidStore.fetchCovidData();
     }
-  },
-  mounted() {
-    this.fetchCovidData();
+
+    return { covidStore, refreshData, dailyCases }
   },
 })
 </script>
